@@ -7,7 +7,7 @@ Created on Fri Sep  8 14:24:57 2023
 
 
 import math
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
  
 EPSILON = 0.00001 # reference float-number for function equal() 
 

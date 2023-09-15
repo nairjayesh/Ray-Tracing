@@ -4,11 +4,6 @@ Created on Sun Sep 10 15:52:11 2023
 
 @author: User
 """
-# TODO: Install NetPbm Windows: https://gnuwin32.sourceforge.net/packages/netpbm.htm 
-# TODO: Install GIMP (Already downloaded): https://www.gimp.org/downloads/thanks.html 
-# TODO: Test pedinng for canvas pixel feature 
-
-
 from features import Color 
 import numpy as np 
 
@@ -58,6 +53,12 @@ class Canvas:
                 pixel_value += " ".join(line) + '\n'
         return  header + pixel_value
     
+    def write_to_ppm(self):
+        ppm_data = self.canvas_to_ppm()
+        with open('Image.ppm','w') as ppm_file: 
+            ppm_file.write(ppm_data)   
+        
+    
 def pixel_conversion(pixel_value) -> list:
     """ 
     Converts the pixel value from 0 - 1 scale to 0 - 255 scale 
@@ -100,16 +101,6 @@ def test_canvas() :
 
 #print(test_canvas())
 
-# GET THE IMAGE.PPM FILE 
-"""
-c = Canvas(10,10)
-for x in range(c.height):
-    for y in range(c.width):
-        c.write_pixel(y, x, Color(1, 0.8, 0.6))
-ppm_data = c.canvas_to_ppm()
-with open('Image.ppm','w') as ppm_file: 
-    ppm_file.write(ppm_data)   
-"""
 
 
 
