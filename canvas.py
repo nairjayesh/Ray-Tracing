@@ -54,7 +54,7 @@ class Canvas:
                 color_scaled = pixel_conversion(self.grid[row, col])
                 pixels.extend(color_scaled)     
                 #Consider: each pixel has 12 characters -- 12*col = No. of Characters per line # No rationale of 17? 
-            for line in [pixels[i:i+17] for i in range(0, len(pixels), 17)]: #HOWTO: Decide the total characters in a line 
+            for line in [pixels[i:i+20] for i in range(0, len(pixels), 0)]: #HOWTO: Decide the total characters in a line -- even at 50 it's showing the stuff.
                 pixel_value += " ".join(line) + '\n'
         return  header + pixel_value
     
@@ -64,9 +64,8 @@ def pixel_conversion(pixel_value) -> list:
     Allows for clamping of values < 0 and values > 255 
     Returns
     -------
-    Tuple with new RGB values 
+    List with new RGB values in str format
     """ 
-    #TODO: Change the implementation - using only single value instead of whole pixel
     color = pixel_value
     max_pixel_value = 255
     r = round(max(min(color.red*max_pixel_value, max_pixel_value),0)) 
@@ -102,6 +101,7 @@ def test_canvas() :
 #print(test_canvas())
 
 # GET THE IMAGE.PPM FILE 
+"""
 c = Canvas(10,10)
 for x in range(c.height):
     for y in range(c.width):
@@ -109,7 +109,7 @@ for x in range(c.height):
 ppm_data = c.canvas_to_ppm()
 with open('Image.ppm','w') as ppm_file: 
     ppm_file.write(ppm_data)   
-
+"""
 
 
 

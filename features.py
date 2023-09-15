@@ -175,19 +175,7 @@ def tick(env, proj) -> Projectile:
 
 
 
-def simulate() -> None:
-    vector = Vector(1,1,0).scale(1)
-    p = Projectile(Point(0, 0, 0), vector) #Removing normalize() helped to scale the vector to any multiple to check the distance -- but how to vary shapre? 
-    e = Environment(Vector(0, -0.5, 0), Vector(-0.1, 0, 0))
-    plot_x = [] 
-    plot_y = []
-    while p.position.value()[1] >= 0:
-      plot_x.append(p.position.value()[0])
-      plot_y.append(p.position.value()[1])
-      p = tick(e, p)
 
-    plt.plot(plot_x,plot_y)
-    plt.show()  
 
 
 def test_features():
