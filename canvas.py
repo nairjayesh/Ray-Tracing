@@ -10,60 +10,70 @@ Created on Sun Sep 10 15:52:11 2023
 
 
 from features import Color 
-import math 
-#import string as str 
+import numpy as np 
 
 class Canvas: 
     
     def __init__(self, width, height, color=Color(0,0,0)) -> None: 
+        """
+        width: Width of canvas -> No. of columns in the matrix holding pixel values
+        height: Height of canvas -> No. of rows in the matrix holding pixel values 
+        """
         self.width = width 
         self.height = height 
         self.color = color
-        # TODO: Create Numpy arrays instead of 2D-List 
-        self.grid = [[color for j in range(self.width)] for i in range(self.height)]
+        self.grid = np.full((height, width), color)
         
-    def write_pixel(self, x, y, color):
-        self.grid[y][x] = color  
+    def write_pixel(self, col, row, color) -> None:
+        """
+        row -> Row no.
+        col -> Column no.
+        """
+        self.grid[row, col] = color  
         
-    def pixel_at(self,x,y):
-        return self.grid[y][x] 
+    def pixel_at(self, col, row) -> Color:
+        """
+        row -> Row no. 
+        col -> Col no. 
+        """
+        return self.grid[row, col] 
     
     def canvas_to_ppm(self) -> str:
         """
         Returns
         -------
-        Canvas header: 
-                - First line is a string : P3 
-                - Second line is numbers 
-                - Third line is maximum color value
-                - 
-        Canvas Pixel values 
+        Canvas Pixel in PPM format to read 
         """
-        # TODO: Change the data structure - for ease of calculating the breaking point for a string line 
         magic_number = 'P3' #NetPbm identifier for image type 
         max_pixel_value = 255 #Max-Pixel value to be scaled towards
-        header = '{0}\n{1} {2}\n{3}\n'.format(magic_number,self.width, self.height, max_pixel_value)
+        header = '{0}\n{1} {2}\n{3}\n'.format(magic_number, self.width, self.height, max_pixel_value)
         pixel_value = ''
-        for y in range(len(self.grid)):
-            pixels = ''
-            for x in range(len(self.grid[y])):
-                color = self.grid[y][x]
-                r = round(color.red*max_pixel_value) 
-                g = round(color.green*max_pixel_value)
-                b = round(color.blue*max_pixel_value) 
-                if r < 0 : r = 0
-                if g < 0 : g = 0
-                if b < 0 : b = 0 
-                if r > 255 : r = 255
-                if g > 255 : g = 255
-                if b > 255 : b = 255 
-                
-                if len(pixels) + len(f"{r} {g} {b} ") >= 70:
-                    pixels += '\n' 
-                pixels += f"{r} {g} {b} "
-            pixel_value += pixels + '\n'
+        for row in range(self.height):
+            pixels = []
+            for col in range(self.width):
+                color_scaled = pixel_conversion(self.grid[row, col])
+                pixels.extend(color_scaled)     
+                #Consider: each pixel has 12 characters -- 12*col = No. of Characters per line # No rationale of 17? 
+            for line in [pixels[i:i+17] for i in range(0, len(pixels), 17)]: #HOWTO: Decide the total characters in a line 
+                pixel_value += " ".join(line) + '\n'
         return  header + pixel_value
     
+def pixel_conversion(pixel_value) -> list:
+    """ 
+    Converts the pixel value from 0 - 1 scale to 0 - 255 scale 
+    Allows for clamping of values < 0 and values > 255 
+    Returns
+    -------
+    Tuple with new RGB values 
+    """ 
+    #TODO: Change the implementation - using only single value instead of whole pixel
+    color = pixel_value
+    max_pixel_value = 255
+    r = round(max(min(color.red*max_pixel_value, max_pixel_value),0)) 
+    g = round(max(min(color.green*max_pixel_value, max_pixel_value), 0))
+    b = round(max(min(color.blue*max_pixel_value, max_pixel_value), 0)) 
+    return [str(r),str(g),str(b)] 
+
 def test_canvas() :
     c = Canvas(10, 20)
     assert c.width == 10
@@ -73,7 +83,6 @@ def test_canvas() :
     color = Color(1,0,0) #Red 
     c.write_pixel(2, 3, color)
     assert c.pixel_at(2, 3).value() == color.value()
-    #max_pixel_value = 255
     cx = Canvas(5,3)
     c1 = Color(1.5, 0, 0)
     c2 = Color(0, 0.5, 0)
@@ -81,22 +90,25 @@ def test_canvas() :
     cx.write_pixel(0,0,c1)
     cx.write_pixel(2,1,c2)
     cx.write_pixel(4,2,c3)
-    assert cx.canvas_to_ppm() == 'P3\n5 3\n255\n255 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 128 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 \n'
-
+    assert cx.canvas_to_ppm() == 'P3\n5 3\n255\n255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 128 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n'
+    cy = Canvas(10,2)
+    for x in range(cy.height):
+        for y in range(cy.width):
+            cy.write_pixel(y, x, Color(1, 0.8, 0.6))
+    assert cy.canvas_to_ppm() == 'P3\n10 2\n255\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n'
+    assert cy.canvas_to_ppm()[-1:] == '\n'
     return 'All the Canvas test\'s have passed'
 
-print(test_canvas())
+#print(test_canvas())
 
-cx = Canvas(10,2)
-c1 = Color(1, 0.8, 0.6)
-for y in range(len(cx.grid)):
-    for x in range(len(cx.grid[y])):
-        cx.write_pixel(x,y,c1)
-s = cx.canvas_to_ppm()
-print(cx.canvas_to_ppm())
-
-
-
+# GET THE IMAGE.PPM FILE 
+c = Canvas(10,10)
+for x in range(c.height):
+    for y in range(c.width):
+        c.write_pixel(y, x, Color(1, 0.8, 0.6))
+ppm_data = c.canvas_to_ppm()
+with open('Image.ppm','w') as ppm_file: 
+    ppm_file.write(ppm_data)   
 
 
 

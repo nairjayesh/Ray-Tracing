@@ -8,10 +8,8 @@ Created on Fri Sep  8 14:24:57 2023
 
 import math
 import matplotlib.pyplot as plt
-
-
-# TODO: Have to rewrite the 
-EPSILON = 0.00001
+ 
+EPSILON = 0.00001 # reference float-number for function equal() 
 
 class Tuple:
     
@@ -258,5 +256,5 @@ def test_features():
 
 #Test outcomes on the terminal 
 
-print(test_features())
+#print(test_features())
 #simulate() 

@@ -1,2 +1,8 @@
 .DS_Store
 *.pyc 
+*.py.un~
+*.py.swo
+*.py~
+None
+str
+
