@@ -49,7 +49,7 @@ class Canvas:
                 color_scaled = pixel_conversion(self.grid[row, col])
                 pixels.extend(color_scaled)     
                 #Consider: each pixel has 12 characters -- 12*col = No. of Characters per line # No rationale of 17? 
-            for line in [pixels[i:i+20] for i in range(0, len(pixels), 0)]: #HOWTO: Decide the total characters in a line -- even at 50 it's showing the stuff.
+            for line in [pixels[i:i+20] for i in range(0, len(pixels), 20)]: #HOWTO: Decide the total characters in a line -- even at 50 it's showing the stuff.
                 pixel_value += " ".join(line) + '\n'
         return  header + pixel_value
     
