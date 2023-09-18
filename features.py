@@ -33,7 +33,7 @@ class Tuple:
     def equal(a,b) :
         return (abs(a.x - b.x) < EPSILON and abs(a.y - b.y) < EPSILON and abs(a.z - b.z) < EPSILON and abs(a.w - b.w) < EPSILON)
     
-    def value(self, decimal_places=2):
+    def value(self, decimal_places=4):
         return (
             round(self.x, decimal_places),
             round(self.y, decimal_places),
@@ -173,11 +173,6 @@ def tick(env, proj) -> Projectile:
   velocity = Tuple.add(proj.velocity, environment)
   return Projectile(position, velocity)
 
-
-
-
-
-
 def test_features():
   """
   Function that test's all the features 
@@ -244,5 +239,5 @@ def test_features():
 
 #Test outcomes on the terminal 
 
-print(test_features())
+#print(test_features())
 #simulate() 
