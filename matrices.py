@@ -57,7 +57,9 @@ def test_matrices():
     assert np.allclose(identity, np.transpose(identity))
     
     # Inverting Matrices 
-    
+    # Testing if a matrix can be invertible -- via determinant 
+	M10 = np.array([[6,4,4,4],[5,5,7,6],[4,-9,3,7],[9,1,7,-6]])
+	assert np.linalg.det(M10) == -2120 
     
     return 'All matrices test passed'
     
