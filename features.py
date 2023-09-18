@@ -244,5 +244,5 @@ def test_features():
 
 #Test outcomes on the terminal 
 
-#print(test_features())
+print(test_features())
 #simulate() 
