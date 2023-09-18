@@ -12,7 +12,7 @@ import math
 
 start = Point(0,-1,0)
 transform = rotation(axis='z', radians=math.pi/6)
-c = Canvas(900, 900) 
+c = Canvas(500, 500) 
 n = 1
 color = Color(1,1,1)
 radius = c.width*(3/8) #--only square shaped canvasas supporter through this #TODO: Extend support for rectangular canvas shape as well. 
