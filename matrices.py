@@ -21,7 +21,7 @@ def translation(x,y,z):
 	"""
 	Creates a 4x4 translate matrix from an identity matrix 
 	"""
-	translate = identity_matrix  
+	translate = identity_matrix.copy()
 	translate[0,3] = x 
 	translate[1,3] = y
 	translate[2,3] = z 
@@ -31,7 +31,7 @@ def scaling(x,y,z):
     """
     Creates a 4x4 scale matrix from an identity matrix 
     """
-    scale = identity_matrix
+    scale = identity_matrix.copy()
     scale[0,0] = x 
     scale[1,1] = y
     scale[2,2] = z 
@@ -41,7 +41,7 @@ def rotation(axis, radians):
     """
     Creates a 4x4 rotate matrix based on particular axes from an identity matrix 
     """
-    rotate = identity_matrix
+    rotate = identity_matrix.copy()
     if axis == 'x':
         rotate[1,1] = math.cos(radians)
         rotate[1,2] = -(math.sin(radians))
@@ -60,7 +60,7 @@ def rotation(axis, radians):
     return rotate 
 
 def shearing(x_y, x_z, y_x, y_z, z_x, z_y):
-    shear = identity_matrix
+    shear = identity_matrix.copy()
     shear[0,1] = x_y 
     shear[0,2] = x_z
     shear[1,0] = y_x 

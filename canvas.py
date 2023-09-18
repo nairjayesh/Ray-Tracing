@@ -55,7 +55,7 @@ class Canvas:
     
     def write_to_ppm(self):
         ppm_data = self.canvas_to_ppm()
-        with open('Image.ppm','w') as ppm_file: 
+        with open('Clock.ppm','w') as ppm_file: 
             ppm_file.write(ppm_data)   
         
     
