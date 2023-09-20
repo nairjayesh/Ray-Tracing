@@ -22,7 +22,7 @@ class Tuple:
     @staticmethod
     def add(a,b) :
         assert a.w + b.w in [0,1], 'Cannot add these arguments'
-        return a.__class__(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) #self.__class__() used to referece class of the object
+        return a.__class__(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) 
     
     @staticmethod
     def subtract(a,b) : 
